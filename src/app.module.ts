@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductModule } from './product/product.module'
 
+import { Product } from './product/product.entity';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,14 +21,14 @@ import { ProductModule } from './product/product.module'
         password: '', // Database password
         database:  'microservice', // Database name
         autoLoadEntities: true, // Automatically load entities from your directories (remove it on production)
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'], // Paths to your entities
+        entities: [Product], // Paths to your entities
         synchronize: true, // Auto sync the schema; use false in production
       })
 
     }),
     ProductModule,
+    
   ],
-  controllers: [],
-  providers: [],
+ 
 })
 export class AppModule {}

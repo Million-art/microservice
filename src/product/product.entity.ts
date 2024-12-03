@@ -9,14 +9,12 @@ export class Product {
     name: string;
 
     @Column()
-    description: string;
+    image: string;
 
     @Column('decimal')
     price: number;
 
-    @Column()
-    stock: number;
+    @Column({default: 0})
+    likes: number;
 
-    @Column({ default: true })
-    isActive: boolean;
 }
