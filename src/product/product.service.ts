@@ -23,9 +23,18 @@ export class ProductService {
     return this.productRepository.findOne({ where: { id } }); // Correct usage with 'where'
   }
 
-  async updateProduct(id: number, name: string, image: string, price: number, likes: number): Promise<Product> {
-    await this.productRepository.update(id, { name, image, price, likes });
-    return this.productRepository.findOne({ where: { id } }); // Correct usage with 'where'
+  async updateProduct(id: number, updateData: Partial<Product>): Promise<Product> {
+    // Check if the product exists
+    const product = await this.productRepository.findOne({ where: { id } });
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+
+    // Update the product with the provided data
+    Object.assign(product, updateData); // Dynamically update only provided fields
+    await this.productRepository.save(product);
+
+    return product; // Return the updated product
   }
  async delete(id: number): Promise<{ message: string; deletedProduct?: Product }> {
      // Fetch the product to ensure it exists before deletion
